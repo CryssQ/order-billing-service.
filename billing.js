@@ -12,7 +12,7 @@ if (city === "Ivano-Frankivsk") {
     baseRate = 110.0;
 }
 
-return baseRate + (weightKg * 12.0);
+return baseRate + (weightKg * 13.0);
 }
 
 // Стандартний рахунок із податком
