@@ -10,7 +10,7 @@ function calculateDeliveryCost(city, weightKg) {
         baseRate = 110.0;
     }
 
-    return baseRate + (weightKg * 12.0);
+return baseRate + (weightKg * 15.0);
 }
 
 // Стандартний рахунок із податком
