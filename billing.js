@@ -1,43 +1,42 @@
 
-// Дефект 1: Common Coupling
-let GLOBAL_TAX_RATE = 0.20;
+// Розрахунок вартості доставки
+// Data Coupling: передаємо тільки потрібні параметри
+function calculateDeliveryCost(city, weightKg) {
+    let baseRate;
 
-// Дефект 2: Stamp Coupling
-function calculateDeliveryCost(customerProfile, weightKg) {
-    const baseRate =
-        customerProfile.city === "Ivano-Frankivsk" ? 50.0 : 110.0;
+    if (city === "Ivano-Frankivsk") {
+        baseRate = 50.0;
+    } else {
+        baseRate = 110.0;
+    }
 
     return baseRate + (weightKg * 12.0);
 }
 
-// Дефект 3: Control Coupling
-function processInvoice(amount, customerProfile, weightKg, modeFlag) {
-    if (modeFlag === 1) {
-        const delivery = calculateDeliveryCost(customerProfile, weightKg);
-        const total = (amount * (1 + GLOBAL_TAX_RATE)) + delivery;
-
-        return {
-            status: "PROCESSED",
-            total: Number(total.toFixed(2))
-        };
-    } else if (modeFlag === 2) {
-        GLOBAL_TAX_RATE = 0.0;
-
-        const total = amount + calculateDeliveryCost(customerProfile, weightKg);
-
-        return {
-            status: "TAX_EXEMPT",
-            total: Number(total.toFixed(2))
-        };
-    }
+// Стандартний рахунок із податком
+function processStandardInvoice(amount, city, weightKg, taxRate = 0.20) {
+    const delivery = calculateDeliveryCost(city, weightKg);
+    const total = (amount * (1 + taxRate)) + delivery;
 
     return {
-        status: "CANCELLED",
-        total: 0.0
+        status: "PROCESSED",
+        total: Number(total.toFixed(2))
+    };
+}
+
+// Рахунок без податку
+function processTaxExemptInvoice(amount, city, weightKg) {
+    const delivery = calculateDeliveryCost(city, weightKg);
+    const total = amount + delivery;
+
+    return {
+        status: "TAX_EXEMPT",
+        total: Number(total.toFixed(2))
     };
 }
 
 module.exports = {
     calculateDeliveryCost,
-    processInvoice
+    processStandardInvoice,
+    processTaxExemptInvoice
 };
