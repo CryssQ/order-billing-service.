@@ -4,13 +4,15 @@
 function calculateDeliveryCost(city, weightKg) {
     let baseRate;
 
-    if (city === "Ivano-Frankivsk") {
-        baseRate = 50.0;
-    } else {
-        baseRate = 110.0;
-    }
+if (city === "Ivano-Frankivsk") {
+    baseRate = 50.0;
+} else if (city === "Kyiv") {
+    baseRate = 80.0;
+} else {
+    baseRate = 110.0;
+}
 
-return baseRate + (weightKg * 15.0);
+return baseRate + (weightKg * 12.0);
 }
 
 // Стандартний рахунок із податком
